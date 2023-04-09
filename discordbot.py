@@ -1,32 +1,28 @@
-from cmath import log
-from distutils.sysconfig import PREFIX
 import discord
-from dotenv import load_dotenv
-import os
-load_dotenv()
+from discord import app_commands 
 
-PREFIX = os.environ['PREFIX']
-TOKEN = os.environ['TOKEN']
+class aclient(discord.Client):
+    def __init__(self):
+        super().__init__(intents = discord.Intents.default())
+        self.synced = False
 
-client = discord.Client()
-
-@client.event
-async def on_ready():
-    print(f'Logged in as {client.user}.')
-
-@client.event
-async def on_message(message):
-    if message.author == client.user:
-        return
-
-    if message.content == f'{PREFIX}call':
-        await message.channel.send("callback!")
-
-    if message.content.startswith(f'{PREFIX}hello'):
-        await message.channel.send('Hello!')
+    async def on_ready(self):
+        await self.wait_until_ready()
+        if not self.synced: 
+            await tree.sync() 
+            self.synced = True
+        print(f'{self.user}이 시작되었습니다')  #  봇이 시작하였을때 터미널에 뜨는 말
+        game = discord.Game('DDNN봇')          # ~~ 하는중
+        await self.change_presence(status=discord.Status.idle, activity=game)
 
 
-try:
-    client.run(TOKEN)
-except discord.errors.LoginFailure as e:
-    print("Improper token has been passed.")
+client = aclient()
+tree = app_commands.CommandTree(client)
+
+
+@tree.command(name = '안녕', description='슬래시 설명문') 
+async def slash2(interaction: discord.Interaction):
+    await interaction.response.send_message(f"슬래시 커맨드", ephemeral = True) 
+
+
+client.run('토큰')
