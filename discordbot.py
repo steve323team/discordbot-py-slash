@@ -25,4 +25,4 @@ async def slash2(interaction: discord.Interaction):
     await interaction.response.send_message(f"슬래시 커맨드", ephemeral = True) 
 
 
-client.run('토큰')
+client.run('MTA5NDE1NjUyMTY3NzUzNzI4MA.GtI3kR.dvQY68k1XLL6c012-2Pel0MHDEY4R9ndZCaOjo')
